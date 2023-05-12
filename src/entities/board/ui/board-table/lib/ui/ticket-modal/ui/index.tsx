@@ -16,20 +16,22 @@ export const TicketModal: React.FC<TicketModalParams> = ({
   board,
   ticketTypes,
 }) => {
-  const { register, control, reset, handleSubmit } = useForm<Ticket>({
-    values: { ...(view.viewTicket || defaultTicket) },
-    shouldUnregister: true,
-  });
+  const { register, control, reset, handleSubmit, formState } = useForm<Ticket>(
+    {
+      values: { ...(view.viewTicket || defaultTicket) },
+    }
+  );
 
   const [updateBoard, { isSuccess }] = useUpdateBoardMutation();
 
   useEffect(() => {
     if (isSuccess) {
       setIsOpen(false);
+      resetForm();
     }
   }, [isSuccess]);
 
-  const onSubmit = (data: Ticket) => {
+  const onSubmit = async (data: Ticket) => {
     if (board) {
       const newTicket: Ticket = {
         ...data,
@@ -39,7 +41,7 @@ export const TicketModal: React.FC<TicketModalParams> = ({
       updateBoard({ ...board, tickets: [...board.tickets, newTicket] });
     }
   };
-  const onCancel = () => reset(defaultTicket);
+  const resetForm = () => reset(defaultTicket);
   const onRemove = () => {
     if (board) {
       const ticketsWithoutRemoved = board?.tickets.filter(
@@ -53,7 +55,7 @@ export const TicketModal: React.FC<TicketModalParams> = ({
     title: "Create new ticket",
     submitTitle: "Create",
     cancelTitle: "Clear",
-    onCancel: onCancel,
+    onCancel: resetForm,
   };
   const viewTicketProps = {
     title: "View ticket",
@@ -132,8 +134,10 @@ export const TicketModal: React.FC<TicketModalParams> = ({
           </Box>
         </Box>
       }
+      onClose={resetForm}
       closeIfCancel={view.isView}
       onSubmit={onSubmit}
+      isDataInvalid={!formState.isValid}
       {...(!view.isView ? createTicketProps : viewTicketProps)}
     />
   );

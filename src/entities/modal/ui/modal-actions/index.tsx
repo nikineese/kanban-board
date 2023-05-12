@@ -9,6 +9,7 @@ export const BoardActions: React.FC<ModalActions<any>> = ({
   submitTitle,
   onSubmit,
   disabled,
+  isDataInvalid,
 }) => {
   return (
     <Box
@@ -33,7 +34,7 @@ export const BoardActions: React.FC<ModalActions<any>> = ({
           scalePx={10}
           name={submitTitle}
           onClick={onSubmit}
-          disabled={disabled}
+          disabled={isDataInvalid || disabled}
         />
       )}
     </Box>

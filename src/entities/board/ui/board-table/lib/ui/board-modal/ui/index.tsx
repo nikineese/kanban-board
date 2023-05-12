@@ -18,7 +18,7 @@ export const BoardModal: React.FC<CreateBoardModalParams> = ({
   setIsOpen,
   edit = { isEdit: false },
 }) => {
-  const { register, control, handleSubmit, reset } = useForm<Board>({
+  const { register, control, handleSubmit, reset, formState } = useForm<Board>({
     values: { ...(edit.editBoard || defaultBoard) },
     shouldUnregister: true,
   });
@@ -126,6 +126,7 @@ export const BoardModal: React.FC<CreateBoardModalParams> = ({
       }
       disabled={isLoading}
       onSubmit={onSubmit}
+      isDataInvalid={!formState.isValid}
       {...(!edit.isEdit ? createBoardProps : editBoardProps)}
     />
   );

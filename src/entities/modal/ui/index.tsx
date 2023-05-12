@@ -18,6 +18,7 @@ export const TitleActionsModal: React.FC<BoardModalParams<any>> = ({
   onCancel,
   closeIfCancel = false,
   onClose,
+  isDataInvalid = false,
 }) => {
   const onCloseHandler = () => {
     setIsOpen(false);
@@ -52,6 +53,7 @@ export const TitleActionsModal: React.FC<BoardModalParams<any>> = ({
               disabled={disabled}
               submitTitle={submitTitle}
               cancelTitle={cancelTitle}
+              isDataInvalid={isDataInvalid}
             />
           </ModalFormWrapper>
         ) : (
@@ -63,6 +65,7 @@ export const TitleActionsModal: React.FC<BoardModalParams<any>> = ({
               disabled={disabled}
               submitTitle={submitTitle}
               cancelTitle={cancelTitle}
+              isDataInvalid={isDataInvalid}
             />
           </>
         )}
