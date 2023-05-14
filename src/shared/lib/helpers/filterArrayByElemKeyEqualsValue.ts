@@ -1,9 +1,13 @@
-export function filterArrayByElemKeyEqualsValue<T>(
+export function filterArrayByElemKeyEqualsValue<T, K extends keyof T>(
   arr: T[],
-  key: keyof T,
-  val: string
+  val: string,
+  key: K,
+  objPropKey?: keyof T[K]
 ) {
   return arr.filter((el) => {
-    return el[key] === val;
+    if (!objPropKey) {
+      return el[key] === val;
+    }
+    return el[key][objPropKey] === val;
   });
 }

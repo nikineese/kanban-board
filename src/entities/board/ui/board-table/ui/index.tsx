@@ -1,12 +1,11 @@
 import { DragDropContext } from "react-beautiful-dnd";
 import React from "react";
 import { BoardTableParams } from "../model";
-import { Column } from "./column";
+import { BoardColumn } from "./column";
 import { BoardTableWrapper } from "./styled";
 import { FixedStrictDroppable, BlackoutLoader } from "@/shared/lib";
 import { useUpdateBoardMutation } from "../../../api";
 import { onDragEnd } from "../model";
-
 import { sortTicketsByPosition } from "../lib";
 
 export const BoardTable: React.FC<BoardTableParams> = ({
@@ -40,7 +39,7 @@ export const BoardTable: React.FC<BoardTableParams> = ({
               {isLoading && <BlackoutLoader />}
               {board.columns.map((col, idx) => {
                 return (
-                  <Column
+                  <BoardColumn
                     key={col.id}
                     colId={col.id}
                     isColPosFirst={idx === 0}

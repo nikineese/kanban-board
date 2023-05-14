@@ -36,7 +36,7 @@ export const TicketModal: React.FC<TicketModalParams> = ({
       const newTicket: Ticket = {
         ...data,
         id: new Guid().toString(),
-        status: board.columns[0].id,
+        status: board.columns[0],
       };
       updateBoard({ ...board, tickets: [...board.tickets, newTicket] });
     }

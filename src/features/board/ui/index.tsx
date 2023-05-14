@@ -11,6 +11,7 @@ import { Search } from "./search";
 import { BoardParams } from "../model";
 import { useDispatch } from "react-redux";
 import { openLogin } from "@/entities/board-screen";
+import { filterTicketsWithExistingColumn } from "../lib";
 
 export const Board: React.FC<BoardParams> = ({ id }) => {
   const dispatch = useDispatch();
@@ -21,6 +22,8 @@ export const Board: React.FC<BoardParams> = ({ id }) => {
   const [isBoardModalOpen, setIsBoardModalOpen] = useState(false);
 
   if (currentData) {
+    const boardWithFilteredTickets =
+      filterTicketsWithExistingColumn(currentData);
     return (
       <>
         <Box
@@ -34,9 +37,9 @@ export const Board: React.FC<BoardParams> = ({ id }) => {
           <Box display="flex" justifyContent="space-between">
             <Box display="flex" alignItems="center" gap="15px">
               <Typography variant="h4" component="span">
-                {currentData.title}
+                {boardWithFilteredTickets.title}
               </Typography>
-              <ClipboardText text={currentData.id} />
+              <ClipboardText text={boardWithFilteredTickets.id} />
             </Box>
             <Icon
               name="cross"
@@ -45,7 +48,10 @@ export const Board: React.FC<BoardParams> = ({ id }) => {
             />
           </Box>
           <Box display="flex" justifyContent="space-between">
-            <Search board={currentData} searchInData={currentData.tickets} />
+            <Search
+              board={boardWithFilteredTickets}
+              searchInData={boardWithFilteredTickets.tickets}
+            />
             <Button
               variant="default"
               name="Edit board"
@@ -53,7 +59,7 @@ export const Board: React.FC<BoardParams> = ({ id }) => {
             />
           </Box>
           <BoardTable
-            board={currentData}
+            board={boardWithFilteredTickets}
             setCreateTicketModalOpen={setTicketModalOpen}
           />
         </Box>
@@ -61,7 +67,7 @@ export const Board: React.FC<BoardParams> = ({ id }) => {
           <TicketModal
             isOpen={isTicketModalOpen}
             setIsOpen={setTicketModalOpen}
-            board={currentData}
+            board={boardWithFilteredTickets}
             ticketTypes={ticketTypes}
           />
         )}
@@ -69,7 +75,7 @@ export const Board: React.FC<BoardParams> = ({ id }) => {
           <BoardModal
             isOpen={isBoardModalOpen}
             setIsOpen={setIsBoardModalOpen}
-            edit={{ isEdit: true, editBoard: currentData }}
+            edit={{ isEdit: true, editBoard: boardWithFilteredTickets }}
           />
         )}
       </>

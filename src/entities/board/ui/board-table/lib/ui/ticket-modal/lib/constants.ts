@@ -3,7 +3,7 @@ import { Ticket } from "@/entities/board";
 export const defaultTicket: Ticket = {
   title: "",
   id: "",
-  status: "",
+  status: { id: "", colName: "" },
   type: "task",
   description: "",
   creationDate: new Date().toISOString(),

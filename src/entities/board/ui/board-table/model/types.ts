@@ -11,7 +11,7 @@ export type Column = {
 export type Ticket = {
   id: string;
   title: string;
-  status: string;
+  status: Column;
   type: TicketType;
   description: string;
   creationDate: string;

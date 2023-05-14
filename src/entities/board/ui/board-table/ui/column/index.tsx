@@ -12,7 +12,7 @@ import { EmptyColumnPlaceholder } from "../empty-column-placeholder";
 import { Typography } from "@mui/material";
 import { AddTicketWrapper } from "../ticket/styled";
 
-export const Column: React.FC<BoardColumnParams> = ({
+export const BoardColumn: React.FC<BoardColumnParams> = ({
   colId,
   column,
   index,
@@ -22,8 +22,9 @@ export const Column: React.FC<BoardColumnParams> = ({
 }) => {
   const filteredTickets = filterArrayByElemKeyEqualsValue(
     board.tickets,
+    colId,
     "status",
-    colId
+    "id"
   );
 
   return (

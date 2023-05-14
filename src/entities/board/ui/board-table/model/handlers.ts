@@ -45,10 +45,10 @@ const changeBoardByDragDrop = (
   const destinationCol = columns.find((col) => col === destination.droppableId);
   if (sourceCol === destinationCol) {
     const sourceColTickets = Array.from(
-      board.tickets.filter((el) => el.status === sourceCol)
+      board.tickets.filter((el) => el.status.id === sourceCol)
     );
     const otherColumnsTickets = Array.from(
-      board.tickets.filter((el) => el.status !== sourceCol)
+      board.tickets.filter((el) => el.status.id !== sourceCol)
     );
     const draggedTask = sourceColTickets[source.index];
     if (draggedTask) {
@@ -66,22 +66,26 @@ const changeBoardByDragDrop = (
   }
   const tickets = Array.from(board.tickets);
   const sourceTickets = mapTicketsByPositionIndex(
-    tickets.filter((ticket) => ticket.status === sourceCol)
+    tickets.filter((ticket) => ticket.status.id === sourceCol)
   );
   const newTicket = sourceTickets[source.index];
   sourceTickets.splice(source.index, 1);
   const destinationTickets = tickets.filter(
-    (ticket) => ticket.status === destinationCol
+    (ticket) => ticket.status.id === destinationCol
   );
   destinationTickets.splice(destination.index, 0, {
     ...newTicket,
-    status: destination.droppableId,
+    status: {
+      id: destination.droppableId,
+      colName: convertTitleId(destination.droppableId, "id"),
+    },
   });
 
   const sortedByPosDestinationTickets =
     mapTicketsByPositionIndex(destinationTickets);
   const otherColumnsTickets = tickets.filter(
-    (ticket) => ticket.status !== sourceCol && ticket.status !== destinationCol
+    (ticket) =>
+      ticket.status.id !== sourceCol && ticket.status.id !== destinationCol
   );
   return {
     ...board,

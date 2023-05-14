@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { BoardTicketParams } from "./types";
 import { TicketWrapper } from "./styled";
 import { Box, Typography } from "@mui/material";
-import { TicketModal } from "@/entities/board/ui";
+import { TicketModal } from "@/entities/board";
 import { Button, colors, Icon, TruncateText } from "@/shared/lib";
 
 export const BoardTicket: React.FC<BoardTicketParams> = ({
