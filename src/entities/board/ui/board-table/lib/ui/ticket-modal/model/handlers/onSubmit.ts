@@ -10,10 +10,11 @@ export const makeOnSubmitTicketHandler =
     await updateBoard({ ...board, tickets: newTickets });
   };
 const makeNewTickets = (board: Board, data: Ticket, isEditMode: boolean) => {
+  console.log(data);
   const newTicket: Ticket = {
     ...data,
     id: data.id || new Guid().toString(),
-    status: data.status || board.columns[0],
+    status: data.status.id ? data.status : board.columns[0],
   };
   return [
     ...(isEditMode
