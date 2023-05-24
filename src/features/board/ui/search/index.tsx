@@ -18,6 +18,7 @@ export const Search: React.FC<SearchParams> = ({ searchInData, board }) => {
 
   const [search, setSearch] = useState("");
   const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
+
   const filteredDataBySearch = filterDataByString<Ticket>(
     searchInData,
     "title",
@@ -82,7 +83,7 @@ export const Search: React.FC<SearchParams> = ({ searchInData, board }) => {
       </Box>
       {searchedTicket && (
         <TicketModal
-          view={{ isView: true, viewTicket: searchedTicket }}
+          view={{ isModeEnabled: true, modeData: searchedTicket }}
           isOpen={isTicketModalOpen}
           setIsOpen={setIsTicketModalOpen}
           board={board}

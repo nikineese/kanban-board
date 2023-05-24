@@ -19,6 +19,7 @@ export const TitleActionsModal: React.FC<BoardModalParams<any>> = ({
   closeIfCancel = false,
   onClose,
   isDataInvalid = false,
+  isPreventSubmit = false,
 }) => {
   const onCloseHandler = () => {
     setIsOpen(false);
@@ -26,6 +27,7 @@ export const TitleActionsModal: React.FC<BoardModalParams<any>> = ({
       onClose();
     }
   };
+
   const onCancelHandler = () => {
     if (closeIfCancel) {
       setIsOpen(false);
@@ -33,6 +35,16 @@ export const TitleActionsModal: React.FC<BoardModalParams<any>> = ({
     if (onCancel) {
       onCancel();
     }
+  };
+
+  const actionsProps = {
+    onSubmit,
+    onCancel: onCancelHandler,
+    disabled,
+    submitTitle,
+    cancelTitle,
+    isDataInvalid,
+    isPreventSubmit,
   };
 
   return (
@@ -47,26 +59,12 @@ export const TitleActionsModal: React.FC<BoardModalParams<any>> = ({
         {form.isForm && form.handleSubmit && onSubmit ? (
           <ModalFormWrapper onSubmit={form.handleSubmit(onSubmit)}>
             {modalContent}
-            <BoardActions
-              onSubmit={onSubmit}
-              onCancel={onCancelHandler}
-              disabled={disabled}
-              submitTitle={submitTitle}
-              cancelTitle={cancelTitle}
-              isDataInvalid={isDataInvalid}
-            />
+            <BoardActions {...actionsProps} />
           </ModalFormWrapper>
         ) : (
           <>
             {modalContent}
-            <BoardActions
-              onSubmit={onSubmit}
-              onCancel={onCancelHandler}
-              disabled={disabled}
-              submitTitle={submitTitle}
-              cancelTitle={cancelTitle}
-              isDataInvalid={isDataInvalid}
-            />
+            <BoardActions {...actionsProps} />
           </>
         )}
       </ModalContentWrapper>

@@ -11,7 +11,7 @@ import { Search } from "./search";
 import { BoardParams } from "../model";
 import { useDispatch } from "react-redux";
 import { openLogin } from "@/entities/board-screen";
-import { filterTicketsWithExistingColumn } from "../lib";
+import { filterTicketsColumnExist } from "../lib";
 
 export const Board: React.FC<BoardParams> = ({ id }) => {
   const dispatch = useDispatch();
@@ -22,8 +22,8 @@ export const Board: React.FC<BoardParams> = ({ id }) => {
   const [isBoardModalOpen, setIsBoardModalOpen] = useState(false);
 
   if (currentData) {
-    const boardWithFilteredTickets =
-      filterTicketsWithExistingColumn(currentData);
+    const boardWithFilteredTickets = filterTicketsColumnExist(currentData);
+
     return (
       <>
         <Box
@@ -61,6 +61,7 @@ export const Board: React.FC<BoardParams> = ({ id }) => {
           <BoardTable
             board={boardWithFilteredTickets}
             setCreateTicketModalOpen={setTicketModalOpen}
+            ticketTypes={ticketTypes}
           />
         </Box>
         {ticketTypes && (
@@ -75,7 +76,7 @@ export const Board: React.FC<BoardParams> = ({ id }) => {
           <BoardModal
             isOpen={isBoardModalOpen}
             setIsOpen={setIsBoardModalOpen}
-            edit={{ isEdit: true, editBoard: boardWithFilteredTickets }}
+            edit={{ isModeEnabled: true, modeData: boardWithFilteredTickets }}
           />
         )}
       </>

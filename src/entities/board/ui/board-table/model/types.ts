@@ -3,6 +3,7 @@ import { Board } from "../../../model";
 export type BoardTableParams = {
   board: Board;
   setCreateTicketModalOpen: (isModalOpen: boolean) => void;
+  ticketTypes?: TicketType[];
 };
 export type Column = {
   id: string;
@@ -20,3 +21,7 @@ export type Ticket = {
   position: number;
 };
 export type TicketType = "task" | "bug";
+export type ModalMode<T> = {
+  isModeEnabled: boolean;
+  modeData: T;
+};

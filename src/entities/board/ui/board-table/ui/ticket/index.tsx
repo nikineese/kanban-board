@@ -10,6 +10,7 @@ export const BoardTicket: React.FC<BoardTicketParams> = ({
   ticket,
   index,
   board,
+  ticketTypes,
 }) => {
   const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
 
@@ -50,10 +51,11 @@ export const BoardTicket: React.FC<BoardTicketParams> = ({
         )}
       </Draggable>
       <TicketModal
-        view={{ isView: true, viewTicket: ticket }}
+        view={{ isModeEnabled: true, modeData: ticket }}
         isOpen={isTicketModalOpen}
         setIsOpen={setIsTicketModalOpen}
         board={board}
+        ticketTypes={ticketTypes}
       />
     </>
   );

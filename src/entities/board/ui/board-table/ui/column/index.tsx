@@ -5,7 +5,7 @@ import { BoardTicket } from "../ticket";
 import { ColumnWrapper, TicketListWrapper } from "./styled";
 import {
   FixedStrictDroppable,
-  filterArrayByElemKeyEqualsValue,
+  filterArrayByValueEqualsField,
   Icon,
 } from "@/shared/lib";
 import { EmptyColumnPlaceholder } from "../empty-column-placeholder";
@@ -19,10 +19,11 @@ export const BoardColumn: React.FC<BoardColumnParams> = ({
   board,
   isColPosFirst,
   setCreateTicketModalOpen,
+  ticketTypes,
 }) => {
-  const filteredTickets = filterArrayByElemKeyEqualsValue(
-    board.tickets,
+  const filteredTickets = filterArrayByValueEqualsField(
     colId,
+    board.tickets,
     "status",
     "id"
   );
@@ -47,6 +48,7 @@ export const BoardColumn: React.FC<BoardColumnParams> = ({
                       board={board}
                       ticket={ticket}
                       index={index}
+                      ticketTypes={ticketTypes}
                     />
                   );
                 })}

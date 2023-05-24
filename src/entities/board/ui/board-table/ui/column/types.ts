@@ -1,4 +1,5 @@
 import { Board } from "../../../../model";
+import { TicketType } from "../../model";
 
 export type BoardColumnParams = {
   colId: string;
@@ -6,5 +7,6 @@ export type BoardColumnParams = {
   isColPosFirst: boolean;
   index: number;
   board: Board;
+  ticketTypes?: TicketType[];
   setCreateTicketModalOpen: (isModalOpen: boolean) => void;
 };

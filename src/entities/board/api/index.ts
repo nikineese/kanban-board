@@ -1,13 +1,14 @@
 import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
 import { deleteDoc, doc, getDoc, setDoc, updateDoc } from "@firebase/firestore";
-import { db } from "@/shared/config";
+import { Collection, db } from "@/shared/config";
 import { Board } from "../model";
 import { ErrorMessages } from "@/shared/lib";
 import { BoardApiError } from "./types";
+import { ApiCacheTag } from "./constants";
 
 export const boardApi = createApi({
   baseQuery: fakeBaseQuery<BoardApiError>(),
-  tagTypes: ["Board"],
+  tagTypes: [ApiCacheTag.Board],
   endpoints: (builder) => ({
     fetchBoardById: builder.query<Board, string>({
       async queryFn(id) {
@@ -15,7 +16,7 @@ export const boardApi = createApi({
           return { error: { message: ErrorMessages.ENTER_CORRECT_VALUE } };
         }
         try {
-          const ref = doc(db, "boards", id);
+          const ref = doc(db, Collection.Boards, id);
           const snap = await getDoc(ref);
           if (snap.exists()) {
             return { data: snap.data() as Board };
@@ -26,12 +27,13 @@ export const boardApi = createApi({
           return { error: { message: ErrorMessages.UNHANDLED_ERROR } };
         }
       },
-      providesTags: ["Board"],
+      providesTags: [ApiCacheTag.Board],
     }),
     createNewBoard: builder.mutation<Board, Board>({
       async queryFn(board) {
         try {
-          const ref = doc(db, "boards", board.id);
+          console.log(board);
+          const ref = doc(db, Collection.Boards, board.id);
           await setDoc(ref, board);
           const snap = await getDoc(ref);
           if (snap.exists()) {
@@ -43,12 +45,12 @@ export const boardApi = createApi({
           return { error: { message: ErrorMessages.UNHANDLED_ERROR } };
         }
       },
-      invalidatesTags: ["Board"],
+      invalidatesTags: [ApiCacheTag.Board],
     }),
     updateBoard: builder.mutation<Board, Board>({
       async queryFn(board) {
         try {
-          const ref = doc(db, "boards", board.id);
+          const ref = doc(db, Collection.Boards, board.id);
           await updateDoc(ref, board);
           const snap = await getDoc(ref);
           if (snap.exists()) {
@@ -62,12 +64,12 @@ export const boardApi = createApi({
           return { error: { message: ErrorMessages.UNHANDLED_ERROR } };
         }
       },
-      invalidatesTags: ["Board"],
+      invalidatesTags: [ApiCacheTag.Board],
     }),
     removeBoard: builder.mutation<unknown, Board>({
       async queryFn(board) {
         try {
-          const ref = doc(db, "boards", board.id);
+          const ref = doc(db, Collection.Boards, board.id);
           await deleteDoc(ref);
           const snap = await getDoc(ref);
           if (!snap.exists()) {

@@ -14,4 +14,5 @@ export type BoardModalParams<T> = {
   cancelTitle?: string;
   closeIfCancel?: boolean;
   isDataInvalid?: boolean;
+  isPreventSubmit?: boolean;
 };

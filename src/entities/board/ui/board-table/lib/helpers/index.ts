@@ -1,2 +1,2 @@
 export * from "./sortTicketsByPosition";
-export * from "./mapTicketsByPositionIndex";
+export * from "./mapTicketsPosition";

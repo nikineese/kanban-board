@@ -1,6 +1,6 @@
-export function filterArrayByElemKeyEqualsValue<T, K extends keyof T>(
-  arr: T[],
+export function filterArrayByValueEqualsField<T, K extends keyof T>(
   val: string,
+  arr: T[],
   key: K,
   objPropKey?: keyof T[K]
 ) {

@@ -32,6 +32,9 @@ export const Login = () => {
           minHeight="500px"
           boxShadow={`0px 0px 100px -20px ${colors.black.default}`}
         >
+          <Typography variant="h4" component="span">
+            Free Kanban Board
+          </Typography>
           <Button
             variant="default"
             scalePx={15}

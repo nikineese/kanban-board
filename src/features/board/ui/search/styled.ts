@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { colors } from "../../../../shared/lib/constants";
+import { colors } from "@/shared/lib";
 
 export const SearchInput = styled.input`
   background: #fff;

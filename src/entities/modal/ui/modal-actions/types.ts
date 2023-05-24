@@ -5,4 +5,5 @@ export type ModalActions<T> = {
   onSubmit?: (data: T) => void;
   disabled?: boolean;
   isDataInvalid?: boolean;
+  isPreventSubmit?: boolean;
 };

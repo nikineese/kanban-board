@@ -1,4 +1,4 @@
-import { Ticket } from "@/entities/board";
+import { Ticket } from "../../../../../model";
 
 export const defaultTicket: Ticket = {
   title: "",

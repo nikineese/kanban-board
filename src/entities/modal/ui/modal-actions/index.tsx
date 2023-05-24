@@ -10,6 +10,7 @@ export const BoardActions: React.FC<ModalActions<any>> = ({
   onSubmit,
   disabled,
   isDataInvalid,
+  isPreventSubmit,
 }) => {
   return (
     <Box
@@ -33,7 +34,7 @@ export const BoardActions: React.FC<ModalActions<any>> = ({
           variant="default"
           scalePx={10}
           name={submitTitle}
-          onClick={onSubmit}
+          onClick={isPreventSubmit ? onSubmit : undefined}
           disabled={isDataInvalid || disabled}
         />
       )}

@@ -1,25 +1,29 @@
 import React, { useEffect } from "react";
-import { CreateBoardModalParams } from "../model";
-import { TitleActionsModal } from "@/entities/modal";
+import {
+  CreateBoardModalParams,
+  makeOnCloseBoardHandler,
+  makeOnRemoveBoardHandler,
+  makeOnSubmitBoardHandler,
+} from "../model";
+import { TitleActionsModal } from "../../../../../../../modal";
 import { useFieldArray, useForm } from "react-hook-form";
 import { Box, Input, Typography } from "@mui/material";
-import { Button, colors, convertTitleId, Icon } from "@/shared/lib";
+import { Button, colors, Icon } from "@/shared/lib";
 import {
-  Board,
   useCreateNewBoardMutation,
   useRemoveBoardMutation,
   useUpdateBoardMutation,
-} from "@/entities/board";
-import { Guid } from "js-guid";
-import { defaultBoard, emptyColumn } from "../lib";
+} from "../../../../../../api";
+import { Board } from "../../../../../../model";
+import { defaultBoard, emptyColumn, Field } from "../lib";
 
 export const BoardModal: React.FC<CreateBoardModalParams> = ({
   isOpen,
   setIsOpen,
-  edit = { isEdit: false },
+  edit,
 }) => {
   const { register, control, handleSubmit, reset, formState } = useForm<Board>({
-    values: { ...(edit.editBoard || defaultBoard) },
+    values: { ...(edit?.modeData || defaultBoard) },
     shouldUnregister: true,
   });
   const { fields, append, remove } = useFieldArray({
@@ -39,44 +43,16 @@ export const BoardModal: React.FC<CreateBoardModalParams> = ({
     }
   }, [isCreateBoardSuccess, isUpdateBoardSuccess]);
 
-  const onSubmit = async (data: Board) => {
-    const newBoard: Board = {
-      ...data,
-      id: edit.editBoard?.id || Guid.newGuid().toString(),
-      tickets: edit.editBoard?.tickets || [],
-      columns: data.columns?.map((col) => ({
-        ...col,
-        id: convertTitleId(col.colName, "title"),
-      })),
-    };
-    if (edit.isEdit) {
-      await updateBoard(newBoard);
-      return;
-    }
-    await createBoard(newBoard);
-  };
-  const onRemoveBoard = async () => {
-    if (edit.isEdit && edit.editBoard) {
-      await removeBoard(edit.editBoard);
-      return;
-    }
-  };
-  const onClose = () => {
-    if (edit.isEdit && edit.editBoard) {
-      reset(edit.editBoard);
-    }
-  };
-
   const createBoardProps = {
-    title: "Create new board",
-    submitTitle: "Create",
-    onClose: onClose,
+    title: Field.CREATE_TITLE,
+    submitTitle: Field.CREATE_SUBMIT,
+    onClose: makeOnCloseBoardHandler(reset, edit),
   };
   const editBoardProps = {
-    title: "Edit board",
-    submitTitle: "Save",
-    cancelTitle: "Remove board",
-    onCancel: onRemoveBoard,
+    title: Field.EDIT_TITLE,
+    submitTitle: Field.EDIT_SUBMIT,
+    cancelTitle: Field.EDIT_CANCEL,
+    onCancel: makeOnRemoveBoardHandler(removeBoard, edit),
   };
 
   return (
@@ -125,9 +101,9 @@ export const BoardModal: React.FC<CreateBoardModalParams> = ({
         </Box>
       }
       disabled={isLoading}
-      onSubmit={onSubmit}
+      onSubmit={makeOnSubmitBoardHandler(createBoard, updateBoard, edit)}
       isDataInvalid={!formState.isValid}
-      {...(!edit.isEdit ? createBoardProps : editBoardProps)}
+      {...(!edit?.isModeEnabled ? createBoardProps : editBoardProps)}
     />
   );
 };
