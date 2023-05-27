@@ -9,7 +9,7 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import { Box, Input, MenuItem, Select, Typography } from "@mui/material";
 import { Ticket } from "../../../../model";
-import { defaultTicket, Field } from "../lib";
+import { defaultTicket, ErrorMessage, Field } from "../lib";
 import { TextArea } from "./styled";
 import { useUpdateBoardMutation } from "../../../../../../api";
 
@@ -72,7 +72,9 @@ export const TicketModal: React.FC<TicketModalParams> = ({
         <Box display="flex" flexDirection="column" gap="40px">
           <Input
             placeholder="Task title..."
-            {...register("title", { required: true })}
+            {...register("title", {
+              required: { value: true, message: ErrorMessage.REQUIRED },
+            })}
             disabled={mode?.isModeEnabled}
           />
           <Box display="flex" flexDirection="column" gap="20px">
@@ -108,7 +110,9 @@ export const TicketModal: React.FC<TicketModalParams> = ({
                 minRows={6}
                 maxRows={6}
                 placeholder="Add a description..."
-                {...register("description", { required: true })}
+                {...register("description", {
+                  required: { value: true, message: ErrorMessage.REQUIRED },
+                })}
                 disabled={mode?.isModeEnabled}
               />
             </Box>
@@ -117,8 +121,9 @@ export const TicketModal: React.FC<TicketModalParams> = ({
               <Input
                 type="number"
                 {...register("expectedHours", {
-                  required: true,
+                  required: { value: true, message: ErrorMessage.REQUIRED },
                   valueAsNumber: true,
+                  validate: (v) => !isNaN(Number(v)),
                 })}
                 disabled={mode?.isModeEnabled}
               />
@@ -127,7 +132,9 @@ export const TicketModal: React.FC<TicketModalParams> = ({
               <Typography component="span">Assigned Employee:</Typography>
               <Input
                 type="text"
-                {...register("assignedEmployee", { required: true })}
+                {...register("assignedEmployee", {
+                  required: { value: true, message: ErrorMessage.REQUIRED },
+                })}
                 disabled={mode?.isModeEnabled}
               />
             </Box>
